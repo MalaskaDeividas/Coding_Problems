@@ -1,20 +1,29 @@
+import math
 
+# read how many pairs there are
+k = int(input())
 
+# keep track of the earliest year found
+earliest_year = None
 
-def locust():
-    k = int(input())
-    
-    rows = []
-    for _ in range(k):
-        y, c1, c2 = map(int, input().split())
+for _ in range(k):
+    # read the data for this pair
+    y, c1, c2 = map(int, input().split())
 
-    if (1800 <= y <= 2021) and (1 <= c1 <= 99) and (1 <= c1 <= 99):
-        year = k
-        year += 45
+    # find the LCM of the two cycles
+    gcd = math.gcd(c1, c2) # greatest common divisor
+    lcm = (c1 * c2) // gcd #least common multiple
 
-        
-    #print(k)
-    #print(y, c1, c2)
+    # start checking years after the last known year
+    year = y + lcm
 
-if __name__ == "__main__":
-    locust()
+    # keep moving forward until we reach at least 2022
+    while year < 2022:
+        year += lcm
+
+    # update the earliest year if this one is smaller
+    if earliest_year is None or year < earliest_year:
+        earliest_year = year
+
+# print the final answer
+print(earliest_year)
